@@ -57,7 +57,7 @@ public class UserMealsUtil {
                         userMeal.getDateTime(),
                         userMeal.getDescription(),
                         userMeal.getCalories(),
-                        dailyExceedOrNot.get(localDate)));
+                        dailyExceedOrNot.getOrDefault(localDate,false)));
             }
         }
         return userMealWithExceeds;
