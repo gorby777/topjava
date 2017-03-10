@@ -3,11 +3,11 @@ package ru.javawebinar.topjava.util;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.model.UserMealWithExceed;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * GKislin
@@ -30,6 +30,37 @@ public class UserMealsUtil {
 
     public static List<UserMealWithExceed> getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
 
-        return null;
+        Map<LocalDate, Boolean> dailyExceedOrNot = new HashMap<>();
+        List<UserMealWithExceed> userMealWithExceeds = new ArrayList<>();
+        List<UserMeal> tempList = new ArrayList<>(mealList);
+        tempList.add(new UserMeal(LocalDateTime.MAX, "", 0));
+        LocalDate currentDate = tempList.get(0).getDateTime().toLocalDate();
+        LocalDate localDate;
+        LocalTime localTime;
+        int totalCaloriesPerDay = 0;
+        for (UserMeal userMeal : tempList) {
+            localDate = userMeal.getDateTime().toLocalDate();
+
+            if (!localDate.equals(currentDate)) {
+                dailyExceedOrNot.put(currentDate, totalCaloriesPerDay > caloriesPerDay);
+                totalCaloriesPerDay = userMeal.getCalories();
+                currentDate = localDate;
+            }
+            totalCaloriesPerDay += userMeal.getCalories();
+        }
+
+        for (UserMeal userMeal : tempList) {
+            localDate = userMeal.getDateTime().toLocalDate();
+            localTime = userMeal.getDateTime().toLocalTime();
+            if (TimeUtil.isBetween(localTime, startTime, endTime)) {
+                userMealWithExceeds.add(new UserMealWithExceed(
+                        userMeal.getDateTime(),
+                        userMeal.getDescription(),
+                        userMeal.getCalories(),
+                        dailyExceedOrNot.get(localDate)));
+            }
+        }
+        return userMealWithExceeds;
     }
 }
+
