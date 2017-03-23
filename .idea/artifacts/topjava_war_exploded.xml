@@ -7,9 +7,7 @@
           <element id="module-output" name="topjava" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="Maven: org.junit.jupiter:junit-jupiter-api:5.0.0-M3" />
-          <element id="library" level="project" name="Maven: org.opentest4j:opentest4j:1.0.0-M1" />
-          <element id="library" level="project" name="Maven: org.junit.platform:junit-platform-commons:1.0.0-M3" />
+          <element id="library" level="project" name="Maven: javax.servlet:servlet-api:3.0-alpha-1" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.12" />
         </element>
       </element>
